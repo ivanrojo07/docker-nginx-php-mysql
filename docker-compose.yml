@@ -14,7 +14,12 @@ services:
 
   php:
     restart: always
-    image: brian978/php-fpm:8.2-dev
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+      - "8080:8080"
     working_dir: /var/www/app
     depends_on:
       - memcache
@@ -22,6 +27,7 @@ services:
       - ./app:/var/www/app:cached
       - ./services/fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./services/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./services/extension/conf.d/docker-php-ext-pcntl.ini:/usr/local/etc/php/conf.d/docker-php-ext-pcntl.ini
       - ./logs/php:/var/log/php
     environment:
       - PHP_IDE_CONFIG=serverName=docker

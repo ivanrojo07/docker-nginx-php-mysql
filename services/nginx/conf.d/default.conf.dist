@@ -1,7 +1,7 @@
 server {
     listen       80;
     server_name  localhost;
-    root         /var/www/app;
+    root         /var/www/app/public/;
 
     #charset koi8-r;
     access_log  /var/log/nginx/localhost.access.log  main;

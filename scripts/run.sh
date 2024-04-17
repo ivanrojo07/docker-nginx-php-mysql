@@ -36,6 +36,6 @@ done
 
 # Run the UP command
 ip_update_script="${parent_dir}/scripts/provision_xdebug.sh"
-command="sh $ip_update_script && docker-compose $compose_config up -d"
+command="bash $ip_update_script && docker-compose $compose_config up -d"
 echo "$command"
 eval "$command"

@@ -17,7 +17,6 @@ services:
     image: brian978/php-fpm:8.2-dev
     working_dir: /var/www/app
     depends_on:
-      - db
       - memcache
     volumes:
       - ./app:/var/www/app:cached
@@ -26,17 +25,10 @@ services:
       - ./logs/php:/var/log/php
     environment:
       - PHP_IDE_CONFIG=serverName=docker
-
-  db:
-    image: mariadb:latest
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-volume:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: docker-stack
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: 12345
+    command: >
+      bash -c "chown -R www-data:www-data /var/www/app/storage /var/www/app/bootstrap/cache &&
+               chmod -R 775 /var/www/app/storage /var/www/app/bootstrap/cache &&
+               php-fpm"
 
   memcache:
     image: memcached:latest
